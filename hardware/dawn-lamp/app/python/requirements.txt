@@ -1,0 +1,3 @@
+# Only needed when "camera": true in config.json. Left commented out so the board
+# doesn't install OpenCV on every run; remove the "# " below to turn it on.
+# opencv-python-headless

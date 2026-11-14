@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dawn planter viewer</title>
+<style>
+  :root { --bg: #f4f2ee; --fg: #222; --panel: #fff; --line: #ddd; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1b1b1d; --fg: #eee; --panel: #2a2a2d; --line: #444; } }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 14px/1.4 system-ui, sans-serif; }
+  #ui { position: fixed; top: 12px; left: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; max-width: 260px; }
+  #ui h1 { font-size: 15px; margin: 0 0 6px; }
+  #ui label { display: block; margin: 3px 0; cursor: pointer; }
+  #ui .row { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  button { font: inherit; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+  #status { margin-top: 6px; opacity: .7; font-size: 12px; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<div id="ui">
+  <h1>Dawn planter</h1>
+  <label><input type="checkbox" data-part="bottom" checked> Bottom plate</label>
+  <label><input type="checkbox" data-part="base" checked> Base (electronics)</label>
+  <label><input type="checkbox" data-part="sleeve" checked> Sleeve (wavy cachepot)</label>
+  <label><input type="checkbox" data-part="window" checked> Matrix window</label>
+  <div class="row">
+    <button id="explode">Stacked / exploded</button>
+    <button id="cut">Cut in half</button>
+  </div>
+  <div id="status">Loading…</div>
+  <div id="status2" style="font-size:12px;opacity:.7">Drag to rotate · scroll to zoom · right-drag to move</div>
+</div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { STLLoader } from "three/addons/loaders/STLLoader.js";
+
+// Sizes from dawn-planter.scad (mm): base_h 66, no rim (pins), sleeve_floor 4,
+// sleeve_h 100, pot feet 6 + pot 88; window 36 x 22 from z 6, centred 10 mm right in the flat
+// front (outer face at y -68). STLs are exported in print orientation.
+const BASE_H = 66, FLOOR = 2.4;
+// rot: turn the print-oriented STL back to its place; z/x/y: where it sits; gap: how far it moves when exploded
+const PARTS = {
+  bottom:   { color: 0x9a9a9a, z: -FLOOR,              gap: -40 },
+  base:     { color: 0xd8d8d8, z: BASE_H, rot: Math.PI, gap: 0 },   // printed upside down
+  sleeve:   { color: 0xf5f5f0, z: BASE_H,             gap: 40 },
+  window:   { color: 0xfff6c8, z: 6 + 11, x: 10, front: true, gap: 0, opacity: 0.85 },
+};
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, localClippingEnabled: true });
+renderer.setPixelRatio(devicePixelRatio);
+renderer.setSize(innerWidth, innerHeight);
+renderer.localClippingEnabled = true;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() || "#f4f2ee");
+const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 1, 5000);
+camera.up.set(0, 0, 1);
+camera.position.set(520, -640, 460);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0, 160);
+controls.update();
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x888888, 1.2));
+const sun = new THREE.DirectionalLight(0xffffff, 1.4);
+sun.position.set(300, -400, 600);
+scene.add(sun);
+const grid = new THREE.GridHelper(400, 20, 0x999999, 0xcccccc);
+grid.rotation.x = Math.PI / 2;
+scene.add(grid);
+
+const clip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+let exploded = true, cut = false;
+const meshes = {};
+const loader = new STLLoader();
+let loaded = 0;
+
+for (const [name, p] of Object.entries(PARTS)) {
+  loader.load(`stl/dawn-${name}.stl`, (geo) => {
+    geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({
+      color: p.color, roughness: 0.7, side: THREE.DoubleSide,
+      transparent: !!p.opacity, opacity: p.opacity ?? 1, clippingPlanes: [],
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    if (p.rot) mesh.rotation.x = p.rot;
+    if (p.front) mesh.rotation.x = -Math.PI / 2; // plate outside, plug pointing into the wall
+    scene.add(mesh);
+    meshes[name] = mesh;
+    place();
+    document.getElementById("status").textContent = `${++loaded} of 4 parts loaded`;
+  }, undefined, () => {
+    document.getElementById("status").textContent = `Couldn't load stl/dawn-${name}.stl`;
+  });
+}
+
+function place() {
+  for (const [name, mesh] of Object.entries(meshes)) {
+    const p = PARTS[name];
+    mesh.position.z = p.z + (exploded ? p.gap : 0);
+    if (p.front) { mesh.position.y = -69 - (exploded ? 40 : 0); mesh.position.x = p.x; }
+  }
+}
+
+document.querySelectorAll("[data-part]").forEach((box) =>
+  box.addEventListener("change", () => { const m = meshes[box.dataset.part]; if (m) m.visible = box.checked; }));
+document.getElementById("explode").onclick = () => { exploded = !exploded; place(); };
+document.getElementById("cut").onclick = () => {
+  cut = !cut;
+  for (const m of Object.values(meshes)) { m.material.clippingPlanes = cut ? [clip] : []; m.material.needsUpdate = true; }
+};
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+</script>
+</body>
+</html>

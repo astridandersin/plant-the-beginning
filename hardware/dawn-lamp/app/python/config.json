@@ -1,0 +1,23 @@
+{
+  "timezone": "Europe/Helsinki",
+  "relay_url": "https://www.astridandersin.com/api/junction2026/relay",
+  "channel": "dawn",
+  "camera": false,
+  "camera_index": 0,
+  "lamp": {
+    "wake": "07:30",
+    "reminder_after_min": 90,
+    "night_from": "22:00",
+    "night_to": "06:00",
+    "knob_step": 1,
+    "soil_dry_raw": 0,
+    "soil_wet_raw": 1970,
+    "soil_dry_pct": 25,
+    "watering_jump_pct": 15,
+    "motion_mm": 120,
+    "cam_motion_min": 6.0,
+    "daylight_pct": 35.0,
+    "learn": true,
+    "strip_max": 0.6
+  }
+}

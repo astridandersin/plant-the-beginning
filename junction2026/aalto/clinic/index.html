@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="/junction2026/aalto/clinic/" />
+  <title>Clinic view · Plant the beginning</title>
+  <meta name="description" content="Clinic view for Plant the beginning, a bedside planter-lamp for the months after TMS treatment. Demo with simulated patients." />
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="clinic.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">Plant the beginning · Clinic view</p>
+      <h1>Who to check in with this week</h1>
+    </div>
+    <div class="source" role="group" aria-label="Data source">
+      <button type="button" id="src-demo" aria-pressed="true">Demo patients</button>
+      <button type="button" id="src-live" aria-pressed="false">Live lamp</button>
+    </div>
+  </header>
+
+  <p class="banner" id="banner">Demo with <strong>simulated patients</strong>, generated through the lamp's real logic. Never use this page with real patient data.</p>
+
+  <main class="layout">
+    <section class="list" aria-labelledby="list-h">
+      <h2 id="list-h">Patients</h2>
+      <ol id="patients" class="patients"></ol>
+      <p class="hint">Ranked by need: "check in" first, then "keep an eye", then steady. Tested on real wristband data: about 9 % of steady people reach "check in" by mistake in a week, and about 19 % "keep an eye".</p>
+    </section>
+
+    <section class="detail" id="detail" aria-live="polite">
+      <div class="status" id="status"></div>
+
+      <div class="tiles" id="tiles"></div>
+
+      <article class="card">
+        <h3>First activity each morning</h3>
+        <p class="sub">The first button press, watering or movement. Shaded band: within an hour of the person's own usual time for that kind of day (weekdays and weekends differ). Amber: far from usual, earlier or later. Grey: away.</p>
+        <div id="chart-rhythm" class="chart"></div>
+      </article>
+
+      <div class="two">
+        <article class="card">
+          <h3>Morning mood</h3>
+          <p class="sub">From the check-in buttons, 1 low to 5 great. A gap is a missed check-in.</p>
+          <div id="chart-mood" class="chart"></div>
+        </article>
+        <article class="card">
+          <h3>Plant care</h3>
+          <p class="sub">Average soil moisture per day; drops mark watering.</p>
+          <div id="chart-plant" class="chart"></div>
+        </article>
+      </div>
+
+      <div class="two">
+        <article class="card">
+          <h3>Today</h3>
+          <ul id="today" class="today"></ul>
+        </article>
+        <article class="card">
+          <h3>Room and lamp</h3>
+          <dl id="room" class="room"></dl>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>What the lamp is learning</h3>
+        <p class="sub">Each day the lamp picks one of three gentle responses and scores the day by how steady the morning and mood were. Bars: its estimate so far, with uncertainty. It favours what seems to suit this person, and keeps trying the others.</p>
+        <div id="learning"></div>
+        <button type="button" id="learn-go">Explain it for the person (Gemini)</button>
+        <div id="learn-out" class="ai-out"></div>
+      </article>
+
+      <article class="card ai">
+        <h3>Weekly note for the clinic</h3>
+        <p class="sub">Written by Gemini from the numbers above only, and checked on the server: it can't add numbers, diagnose, or suggest a step outside a fixed list.</p>
+        <button type="button" id="ai-go">Write this week's note</button>
+        <div id="ai-out" class="ai-out"></div>
+      </article>
+
+      <article class="card" id="controls" hidden>
+        <h3>Try the lamp</h3>
+        <p class="sub">Sends a command to the real lamp through the relay.</p>
+        <div class="buttons">
+          <button type="button" data-cmd="scene_dawn">Play the dawn cue</button>
+          <button type="button" data-cmd="checkin_low">Check in: low</button>
+          <button type="button" data-cmd="checkin_ok">Check in: ok</button>
+          <button type="button" data-cmd="checkin_good">Check in: good</button>
+        </div>
+        <p id="cmd-note" class="sub" role="status"></p>
+      </article>
+    </section>
+  </main>
+
+  <footer>Plant the beginning, built by Astrid Andersin at Junction 2026 for the Beyond the Clinic challenge. An independent hackathon entry, not a medical device. The lamp flags; the clinic decides.</footer>
+  <script type="module" src="clinic.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Served at /junction2026/aalto (no trailing slash) too, so relative paths resolve from here. -->
+  <base href="/junction2026/aalto/" />
+  <title>Plant the beginning · Junction 2026</title>
+  <meta name="description" content="Smart plant: a bedside planter-lamp for the months after TMS treatment. A Junction 2026 entry for the Beyond the Clinic challenge, checked against real wristband data and the research." />
+  <meta property="og:title" content="Plant the beginning" />
+  <meta property="og:description" content="Smart plant: a bedside planter-lamp for the months after TMS treatment." />
+  <meta property="og:image" content="https://www.astridandersin.com/junction2026/aalto/exploded.png" />
+  <style>
+    :root { --bg:#fff; --ink:#111; --muted:#5f6368; --line:#e5e5e5; --card:#f6f6f4;
+            --dep:#c9702a; --ctl:#2f6ea8; --track:#ecebe7; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --bg:#111; --ink:#f2f2f2; --muted:#9a9a9a; --line:#2a2a2a; --card:#1a1a19;
+              --dep:#c67a3e; --ctl:#4a8ac4; --track:#262624; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height:1.55; }
+    main { max-width:980px; margin:0 auto; padding:56px 16px 32px; }
+    .kicker { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
+    h1 { font-weight:600; font-size:clamp(34px,6vw,56px); margin:0 0 8px; line-height:1.05; }
+    .punch { font-size:20px; color:var(--muted); margin:0 0 40px; }
+    .layout { display:grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap:40px; align-items:start; }
+    @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+    figure { margin:0; background:var(--card); border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+    figure img { display:block; width:100%; height:auto; }
+    figcaption { font-size:13px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); }
+    h2 { font-size:22px; margin:56px 0 8px; }
+    h3 { font-size:17px; margin:24px 0 6px; }
+    .layout h3:first-child { margin-top:0; }
+    p, li { margin:0 0 10px; }
+    ol, ul { padding-left:20px; margin:0; }
+    .note { font-size:14px; color:var(--muted); }
+    .second { margin-top:40px; }
+    .lede { font-size:17px; max-width:720px; }
+    /* charts: plain HTML, one axis each, direct labels on every row */
+    .chart { background:var(--card); border:1px solid var(--line); border-radius:4px; padding:16px; margin:12px 0 6px; }
+    .chart .title { font-weight:600; margin:0 0 2px; }
+    .chart .sub { font-size:13px; color:var(--muted); margin:0 0 14px; }
+    .row { display:grid; grid-template-columns: 110px minmax(0,1fr) 64px; gap:10px; align-items:center; margin:8px 0; font-size:14px; }
+    .row .lab { color:var(--ink); }
+    .row .val { font-variant-numeric:tabular-nums; text-align:right; }
+    .track { position:relative; height:14px; background:var(--track); border-radius:4px; }
+    .bar { position:absolute; left:0; top:0; bottom:0; border-radius:0 4px 4px 0; }
+    .dot { position:absolute; top:50%; width:12px; height:12px; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 0 2px var(--card); }
+    .axis { display:grid; grid-template-columns: 110px minmax(0,1fr) 64px; gap:10px; font-size:12px; color:var(--muted); }
+    .ticks { position:relative; height:16px; }
+    .ticks span { position:absolute; transform:translateX(-50%); white-space:nowrap; }
+    @media (max-width: 520px) { .row, .axis { grid-template-columns: 112px minmax(0,1fr) 56px; gap:8px; font-size:13px; } .ticks span:nth-child(even) { display:none; } }
+    .dep { background:var(--dep); } .ctl { background:var(--ctl); }
+    .key { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:baseline; }
+    [data-tip] { cursor:default; }
+    [data-tip]:hover::after { content:attr(data-tip); position:absolute; left:50%; bottom:calc(100% + 8px); transform:translateX(-50%); white-space:nowrap;
+      background:var(--ink); color:var(--bg); font-size:12px; padding:4px 8px; border-radius:4px; z-index:2; }
+    table { border-collapse:collapse; width:100%; font-size:14px; margin:12px 0 6px; }
+    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600; }
+    td.num { font-variant-numeric:tabular-nums; }
+    .changes { display:grid; gap:12px; margin-top:12px; }
+    .change { border:1px solid var(--line); border-radius:4px; padding:14px 16px; }
+    .change strong { display:block; margin-bottom:2px; }
+    .change .why { font-size:14px; color:var(--muted); margin:0; }
+    .refs li { font-size:14px; }
+    a { color:inherit; }
+    footer { padding:24px 16px 40px; text-align:center; font-size:13px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">Junction 2026 · Beyond the Clinic challenge · work in progress</p>
+    <h1>Plant the beginning</h1>
+    <p class="punch">Smart plant</p>
+
+    <div class="layout">
+      <figure>
+        <img src="exploded.png" width="1400" height="1500"
+             alt="Exploded view of the planter-lamp: from the bottom, a floor plate holding the Arduino board upright, the electronics base with a translucent front window, and the wave-patterned sleeve that holds the plant's own pot." />
+        <figcaption>The 3D-printed planter-lamp, pulled apart: floor plate, electronics base with its light window, and the ocean-wave sleeve.</figcaption>
+      </figure>
+
+      <div>
+        <h3>What it is</h3>
+        <p>A bedside lamp that is also a plant pot, for the months after TMS treatment for depression, when about half of people lose the benefit and nobody is watching closely between clinic visits.</p>
+        <p>It notices the shape of each day: the morning check-in on its buttons (or a missed one), when the plant gets watered, when daylight reaches the room, and the room's temperature and humidity. When mornings change for several days against the person's own pattern, the clinic gets one gentle flag to check in. It never diagnoses or decides treatment.</p>
+
+        <h3>The parts, bottom to top</h3>
+        <ol>
+          <li><strong>Floor plate</strong>: holds the Arduino UNO Q (2 GB) upright and screws into the base, so everything is wired on the table first.</li>
+          <li><strong>Base</strong>: the electronics, with a translucent window where the board's LED matrix shows the mood picker, three buttons for the daily check-in, a chime, a light sensor, and a vented pocket outside so the temperature and humidity sensor reads the room.</li>
+          <li><strong>Sleeve</strong>: a thin wall of ocean waves round the plant's own nursery pot, catching its drainage water; a soil probe rides in the pot, and a 12 V LED strip gives the lamp its warm light.</li>
+        </ol>
+        <p class="note">What it senses: the check-in buttons, soil moisture, room temperature and humidity, and room light (curtains opened, daylight). No camera, no microphone, no bed-exit sensing.</p>
+
+        <h3>Using it</h3>
+        <ul>
+          <li><strong>Check in:</strong> green opens the mood picker, + and − choose (1 to 5), green again saves. Pressing green twice means "ok".</li>
+          <li><strong>Colours of a rising sun:</strong> a dim ember for a hard morning up to bright, sunny light for a good one. No mood gets a "sad" colour, and nothing blue glows at night.</li>
+          <li><strong>Between check-ins</strong> the lamp keeps glowing softly in that mood's colour. With the picker closed, + and − dim it, down to off; at 22:00 it dims by itself.</li>
+          <li><strong>Away:</strong> hold green for 3 seconds, so travel days aren't counted as late mornings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="second">
+      <img src="sleeve.png" width="1400" height="1000" loading="lazy"
+           alt="Close-up of the sleeve: soft horizontal ocean swells rolling round the outside of the planter." />
+      <figcaption>The sleeve: ocean swells rolling round the planter.</figcaption>
+    </figure>
+
+    <h2 id="data">What real data says about the idea</h2>
+    <p class="lede">The lamp's morning rule was tested on real wristband data before building further: the public <a href="https://datasets.simula.no/depresjon/">Depresjon dataset</a> (Simula, Norway), minute-by-minute activity from <strong>23 people with depression and 32 without</strong>, about two weeks each. The research behind every design choice was reviewed too.</p>
+
+    <div class="chart" role="group" aria-labelledby="c1t">
+      <p class="title" id="c1t">Average time people got up</p>
+      <p class="sub">First 30 minutes of sustained activity after 04:00, averaged per person, then per group.</p>
+      <div class="row">
+        <span class="lab"><span class="key dep" aria-hidden="true"></span>Depression</span>
+        <div class="track"><span class="dot dep" style="left:74.7%" data-tip="Depression: 09:44 on average (median 09:57), 23 people"></span></div>
+        <span class="val">09:44</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span class="key ctl" aria-hidden="true"></span>No depression</span>
+        <div class="track"><span class="dot ctl" style="left:40.7%" data-tip="No depression: 08:02 on average (median 07:54), 32 people"></span></div>
+        <span class="val">08:02</span>
+      </div>
+      <div class="axis"><span></span><div class="ticks"><span style="left:0%">06:00</span><span style="left:20%">07:00</span><span style="left:40%">08:00</span><span style="left:60%">09:00</span><span style="left:80%">10:00</span><span style="left:100%">11:00</span></div><span></span></div>
+    </div>
+    <p>People with depression got up about <strong>1 hour 40 minutes later</strong>. Getting-up time tells the two groups apart fairly well (AUC 0.79), so mornings are a sensible thing for the lamp to watch.</p>
+
+    <div class="chart" role="group" aria-labelledby="c2t">
+      <p class="title" id="c2t">How much later people got up at weekends</p>
+      <p class="sub">Weekend average minus weekday average, in minutes.</p>
+      <div class="row">
+        <span class="lab"><span class="key dep" aria-hidden="true"></span>Depression</span>
+        <div class="track"><span class="bar dep" style="width:35%" data-tip="Depression: 42 minutes later at weekends"></span></div>
+        <span class="val">42 min</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span class="key ctl" aria-hidden="true"></span>No depression</span>
+        <div class="track"><span class="bar ctl" style="width:86.7%" data-tip="No depression: 104 minutes later at weekends"></span></div>
+        <span class="val">104 min</span>
+      </div>
+      <div class="axis"><span></span><div class="ticks"><span style="left:0%">0</span><span style="left:25%">30</span><span style="left:50%">60</span><span style="left:75%">90</span><span style="left:100%">120</span></div><span></span></div>
+    </div>
+    <p>But single mornings are very noisy: everyone's getting-up time moves by <strong>about two hours</strong> from day to day, and healthy people sleep in by almost two hours at weekends. A rule that says "late = more than an hour after usual" would trip on an ordinary weekend.</p>
+
+    <h3>How often would the lamp raise a false alarm, and how often would it catch a slip?</h3>
+    <p>The real mornings of the people without depression were replayed through two versions of the rule, first as they are, then with a slow slip added (mornings getting 25 minutes later every day from day 8, a stand-in for the slow change that can come before a relapse).</p>
+    <table>
+      <thead><tr><th>Rule</th><th>Healthy people flagged by mistake (about a week)</th><th>Slow slip caught</th><th>Days to notice</th></tr></thead>
+      <tbody>
+        <tr><td>First version: 5 late mornings in a row</td><td class="num">1 of 32 (3 %)</td><td class="num">18 of 32</td><td class="num">6.5</td></tr>
+        <tr><td>Refined: separate weekday and weekend baselines, 3-day smoothing, 4 of the last 5 days</td><td class="num">6 of 32 (19 %)</td><td class="num">25 of 32</td><td class="num">6</td></tr>
+        <tr><td><strong>The lamp's code now</strong>, two levels: "check in" after 5 mornings in a row far from usual (earlier or later); "keep an eye" when mornings drift on 5 of the last 6 days or get much more irregular. Weekday and weekend baselines, missing days skipped.</td><td class="num">"Check in": 3 of 32 (9 %)<br />"Keep an eye": 6 of 32 (19 %)</td><td class="num">"Check in": 22 of 32<br />Either level: 24 of 32</td><td class="num">6<br />5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">The last row runs the lamp's actual software on the same real mornings. Limits: two weeks per person, no relapse labels, and the slip is simulated. This checks noise and false alarms, not real relapse detection.</p>
+
+    <h3>What the research adds</h3>
+    <ul>
+      <li><strong>The need is real.</strong> Across studies, 53 % of people helped by TMS were still doing well at 6 months and 46 % at 12 months (Senova 2019 meta-analysis). The 2026 Dutch-Flemish consensus supports watching closely and re-treating when symptoms return.</li>
+      <li><strong>Irregularity matters more than lateness.</strong> In a one-year study of 93 people in remission, a flatter, less regular day-night rhythm went with about twice the relapse risk (Tonon et al., <em>JAMA Psychiatry</em> 2026). Later wake times on their own were not the finding.</li>
+      <li><strong>Prediction is modest.</strong> Sensing studies reach around 0.7 accuracy at best, so a flag is a reason to ask, never a diagnosis.</li>
+      <li><strong>A short validated question helps.</strong> A daily or weekly PHQ-2 (two questions) tracks the full PHQ-9 well (r = 0.80), and it is what clinicians already trust.</li>
+      <li><strong>Light and plants are support, not therapy.</strong> Dawn simulation helped in winter depression at 200-300 lux; the lamp's small window is far dimmer, so it's a gentle wake cue. Caring for a plant is a daily ritual and a signal, not a treatment.</li>
+    </ul>
+
+    <h2 id="changes">How this changes the product</h2>
+    <p>Most of these are now in the lamp's software; the clinic view below shows them working on simulated people.</p>
+    <div class="changes">
+      <div class="change"><strong>Built: two levels in the clinic view, not one alarm.</strong><p class="why">A quiet "keep an eye" from the more sensitive rule, and an amber "check in" only from the strict one (later also from a worrying PHQ-2). The clinic sees the expected false-alarm rate next to each flag.</p></div>
+      <div class="change"><strong>Built: irregularity in both directions, with a weekend-aware baseline.</strong><p class="why">Separate weekday and weekend patterns, a rolling baseline that follows the seasons, and early waking counts as much as sleeping in.</p></div>
+      <div class="change"><strong>Built: no data is not a bad day.</strong><p class="why">Holding the green button means "I'm away", and a lamp that's unplugged isn't counted as a late morning. In the real data, missing days would otherwise have caused most of the false alarms.</p></div>
+      <div class="change"><strong>Next: a weekly two-question check-in on the buttons (PHQ-2).</strong><p class="why">Gives the clinic a validated number to act on, which is how re-treatment decisions are made.</p></div>
+      <div class="change"><strong>Built: learning what helps this person.</strong><p class="why">The lamp varies its gentle responses (wake cue, chime, plant reminder) and keeps an honest "still learning" estimate of which ones are followed by steadier mornings and better mood for this person.</p></div>
+      <div class="change"><strong>Words built, safety line next: honest wording and a crisis line.</strong><p class="why">"Flags patterns linked to relapse risk", never "predicts relapse"; "gentle wake cue", never therapy. Next: the lamp and the clinic view say plainly that nobody watches in real time, and show where to get help in a crisis.</p></div>
+    </div>
+
+    <h2 id="clinic">See it working</h2>
+    <p>The clinic view ranks people by need, shows each morning against the person's own usual time, what the lamp is learning, and a weekly note written with Gemini. It runs on three simulated people whose days went through the lamp's real software, and on the real lamp at Junction: its check-ins, room and plant readings arrive within seconds (choose "Live lamp").</p>
+    <p><a href="/junction2026/aalto/clinic">Open the clinic view →</a></p>
+
+    <h3>Sources</h3>
+    <ul class="refs">
+      <li>Garcia-Ceja et al., Depresjon dataset, Simula: <a href="https://datasets.simula.no/depresjon/">datasets.simula.no/depresjon</a></li>
+      <li>Senova et al. 2019, durability of rTMS response, <em>Brain Stimulation</em>: <a href="https://pubmed.ncbi.nlm.nih.gov/30344109/">PubMed 30344109</a></li>
+      <li>Consensus statement on maintenance rTMS (2026): <a href="https://research-portal.uu.nl/en/publications/consensus-statement-on-the-maintenance-treatment-of-depression-wi/">Utrecht University research portal</a></li>
+      <li>Tonon et al. 2026, sleep and rest-activity rhythms as markers of relapse, <em>JAMA Psychiatry</em>: <a href="https://jamanetwork.com/journals/jamapsychiatry/article-abstract/2844602">JAMA Network</a></li>
+      <li>RADAR-MDD, sleep and relapse, <em>J Affect Disord</em> 2024: <a href="https://pubmed.ncbi.nlm.nih.gov/39038618/">PubMed 39038618</a></li>
+      <li>Daily PHQ-2 against PHQ-9: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6030575/">PMC6030575</a></li>
+      <li>Golden et al. 2005, light treatment and dawn simulation, <em>Am J Psychiatry</em>: <a href="https://ajp.psychiatryonline.org/doi/abs/10.1176/appi.ajp.162.4.656">AJP</a></li>
+    </ul>
+  </main>
+  <footer>Built by Astrid Andersin at Junction 2026. An independent hackathon entry, not an official Aalto University product. Not a medical device.</footer>
+</body>
+</html>
