@@ -78,6 +78,7 @@
            transition:background-color .3s var(--easing), transform .3s var(--easing); }
     .cta:hover { background:var(--c-action); transform:translateY(-1px); text-decoration:none; }
     .refs li { font-size:14px; }
+    .try-live { margin-top:18px; padding:14px 18px; border-radius:var(--radius-md); background:rgba(0,120,203,.06); border:1px solid rgba(0,120,203,.18); }
     .video-wrap { margin-top:28px; }
     .video-frame { position:relative; aspect-ratio:16/9; border-radius:var(--radius-lg); overflow:hidden; background:#000; box-shadow:0 18px 40px rgba(52,77,90,.14); }
     .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
@@ -194,6 +195,7 @@
     <p>Two views read the same lamp. <strong>My lamp</strong> is the person's own: today's check-in, their plant, their room, a gentle week in colours, what seems to help, exactly what the clinic sees, and where to get help right now. No scores, no "late", no streaks.</p>
     <p>The <strong>clinic view</strong> ranks people by need, shows each morning against the person's own usual time, what the lamp is learning, and a weekly note written with Gemini. It runs on three simulated people whose days went through the lamp's real software, and on the real lamp at Junction: its check-ins, room and plant readings arrive within seconds (choose "Live lamp").</p>
     <div class="cta-row"><a class="cta" href="/junction2026/aalto/me">Open My lamp →</a><a class="cta" href="/junction2026/aalto/clinic">Open the clinic view →</a></div>
+    <p class="try-live"><strong>Try the real lamp.</strong> It's switched on at the Junction venue. Open <a href="/junction2026/aalto/me?live">My lamp with the real lamp</a> and press <em>Low</em>, <em>OK</em> or <em>Good</em>: the lamp takes the check-in, glows in that mood's colour, and the page shows it within seconds. In the clinic view, choose "Live lamp" and press <em>Play the dawn cue</em> to start its sunrise. If the lamp is offline, the simulated people show everything.</p>
 
     <h2 id="lamp">The lamp, as built</h2>
     <p class="lede">The 3D-printed planter from the real print files, and the electronics as wired at Junction: the Arduino UNO Q, a mini breadboard with the three check-in buttons and three TIP120 light switches, the temperature and humidity sensor, the light sensor, the chime, the soil probe and the 12 V LED strip that lines the sleeve's inner rim. Drag to turn it, zoom with + and −, and point at a part to see what it does.</p>

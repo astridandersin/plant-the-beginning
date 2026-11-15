@@ -150,6 +150,27 @@ function render(p, name) {
   ][p.level] || "";
 }
 
+// The real lamp has sent nothing (switched off, or its history was cleared): say so plainly,
+// and clear whatever a simulated person left on the page.
+function renderOffline() {
+  $("banner").textContent = "The real lamp hasn't sent anything yet. If it's offline, choose a simulated person above to see the full view.";
+  $("greeting").textContent = greeting("");
+  $("dateline").textContent = "Waiting for the lamp.";
+  const sun = $("today-sun"); sun.style.removeProperty("--mood"); sun.style.removeProperty("--mood-glow");
+  $("today-mood").textContent = "Nothing from the lamp yet";
+  $("today-note").textContent = "As soon as the lamp is on, its check-ins, plant and room readings appear here within seconds.";
+  $("checkin").querySelectorAll("button").forEach((b) => (b.disabled = true));
+  $("cmd-note").textContent = "These buttons send a check-in to the real lamp while it's on.";
+  $("soil-fill").style.height = "0";
+  $("plant-state").textContent = "Your plant";
+  $("plant-note").textContent = "";
+  $("room").replaceChildren();
+  $("week").replaceChildren();
+  $("learn-text").textContent = "Your lamp is still getting to know you. Give it a couple of weeks.";
+  $("away-text").textContent = "";
+  $("clinic-level").textContent = "";
+}
+
 /* ---------- sources ---------- */
 
 async function load() {
@@ -173,7 +194,8 @@ async function poll() {
     if (!res.ok) throw new Error(`the relay answered ${res.status}`);
     const j = await res.json();
     if (j.readings?.length) { state.rows.push(...j.readings); state.since = Math.max(state.since, ...j.readings.map((r) => r.t || 0)); }
-    $("banner").textContent = state.rows.length ? "The real lamp at Junction, live. A demo device: no real personal data." : "Waiting for the lamp: nothing has arrived yet.";
+    if (!state.rows.length) { renderOffline(); return; }
+    $("banner").textContent = "The real lamp at Junction, live. A demo device: no real personal data.";
     render(picture(state.rows), "");
   } catch (err) {
     $("banner").textContent = `The live lamp isn't reachable (${err.message}). Try a simulated person instead.`;

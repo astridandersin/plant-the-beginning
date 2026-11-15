@@ -316,7 +316,11 @@ async function digest() {
 
 async function explainLearning() {
   const p = state.patients.find((x) => x.id === state.selected);
-  if (!p?.learning) return;
+  if (!p?.learning) {
+    $("learn-out").replaceChildren(el("p", { class: "note" },
+      "Nothing to explain yet: the lamp needs about a week of mornings before it can compare its three responses. Choose a simulated person above to see this explained."));
+    return;
+  }
   const L = p.learning;
   const input = {
     responses: L.arms.map((a) => ({ name: a.name, label: a.label.toLowerCase(), score: a.mean, low: a.lo, high: a.hi, days: Math.round(a.days) })),
