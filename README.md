@@ -14,6 +14,7 @@ Built solo by Astrid Andersin at Junction 2026 for Aalto University's *Beyond th
 |---|---|
 | [`hardware/dawn-lamp/app/`](hardware/dawn-lamp/app/) | The lamp's software for the Arduino UNO Q (App Lab app): `sketch/` runs on the microcontroller (buttons, DHT22, light sensor, soil probe, LED matrix, 12 V strip through TIP120s), `python/` runs on Linux (check-in, rhythm check, learning loop, relay client) with tests and a simulator. Wiring and setup in its README. |
 | [`hardware/dawn-lamp/enclosure/`](hardware/dawn-lamp/enclosure/) | The 3D-printed planter: parametric OpenSCAD source, STL files and a browser viewer. `printed/` holds the STL files exactly as printed for the lamp at Junction. |
+| [`hardware/dawn-lamp/analysis/`](hardware/dawn-lamp/analysis/) | The lamp's rule tested on the public Depresjon wristband dataset, including a run of the lamp's own code. |
 | [`api/junction2026/`](api/junction2026/), [`api/_lib/junction2026/`](api/_lib/junction2026/) | Vercel serverless functions: the device relay (Upstash Redis) and the guarded Gemini proxy. |
 | [`junction2026/aalto/`](junction2026/aalto/) | The project page (with an interactive 3D model of the lamp, `hardware3d.js`, built from the printed STL files in `models/`), My lamp (`me/`) and the clinic view (`clinic/`). Plain HTML, CSS and JavaScript. |
 
