@@ -261,9 +261,9 @@
     <p>But single mornings are very noisy: everyone's getting-up time moves by <strong>about two hours</strong> from day to day, and healthy people sleep in by almost two hours at weekends. A rule that says "late = more than an hour after usual" would trip on an ordinary weekend.</p>
 
     <h3>How often would the lamp raise a false alarm, and how often would it catch a slip?</h3>
-    <p>The real mornings of the people without depression were replayed through two versions of the rule, first as they are, then with a slow slip added (mornings getting 25 minutes later every day from day 8, a stand-in for the slow change that can come before a relapse).</p>
+    <p>The dataset has no recorded relapses, so a slip had to be simulated. The real mornings of the 32 people without depression were run through each version of the rule twice: first exactly as recorded, to count false alarms, then with a slow slip added to those same mornings (getting up 25 minutes later every day from day 8, a stand-in for the slow change that can come before a relapse). So the 32 slips are the same 32 people with a simulated drift, not 32 more people.</p>
     <div class="table-wrap"><table>
-      <thead><tr><th>Rule</th><th>Healthy people flagged by mistake (about a week)</th><th>Slow slip caught</th><th>Days to notice</th></tr></thead>
+      <thead><tr><th>Rule</th><th>Healthy people flagged by mistake (about a week)</th><th>Simulated slip caught (same 32 people)</th><th>Days to notice</th></tr></thead>
       <tbody>
         <tr><td>First version: 5 late mornings in a row</td><td class="num">1 of 32 (3 %)</td><td class="num">18 of 32</td><td class="num">6.5</td></tr>
         <tr><td>Refined: separate weekday and weekend baselines, 3-day smoothing, 4 of the last 5 days</td><td class="num">6 of 32 (19 %)</td><td class="num">25 of 32</td><td class="num">6</td></tr>
