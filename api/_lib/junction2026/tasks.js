@@ -96,6 +96,8 @@ const TASKS = {
       "Write: what_changed (one or two plain sentences), confidence (one sentence that names the lamp's known false-alarm rate from the input and says this is a reason to ask, not a verdict), and pick suggested_step from the allowed list.",
       "Rules: use only numbers present in the input, written the same way; never diagnose, never name an illness, never say relapse; away days are not a concern;",
       "pick 'no action this week' for level 0, 'send a PHQ-9' or 'phone call this week' for level 1 or 2, and 'discuss a booster at the next visit' only for level 2.",
+      "Write for a busy clinician in plain English: never use the input's field names or code words (no 'level', 'late_run', 'false_alarm_rate_pct', underscores or JSON keys).",
+      "Say for example 'mornings were far from their usual time on 6 days in a row' and 'about 9 % of steady people get this flag by mistake in a week'.",
     ].join(" "),
     prompt: (input) => `Lamp numbers for one person, last 7 days (JSON):\n${JSON.stringify(input)}`,
     validateInput: (input) => {
@@ -114,6 +116,7 @@ const TASKS = {
     },
     validate: (input, out) => {
       if (/light therapy|diagnos|relapse|depressi(ve|on) (is|has)/i.test(JSON.stringify(out))) return "used a forbidden claim";
+      if (/\b[a-z]+_[a-z_]+\b|\blevel [012]\b/i.test(`${out.what_changed} ${out.confidence}`)) return "used internal field names; write plain words";
       const allowed = { 0: ["no action this week"], 1: ["send a PHQ-9", "phone call this week"], 2: ["send a PHQ-9", "phone call this week", "discuss a booster at the next visit"] };
       if (!allowed[input.level].includes(out.suggested_step)) return "suggested step doesn't fit the level";
       return onlyInputNumbers(input, out, SMALL_COUNTS);

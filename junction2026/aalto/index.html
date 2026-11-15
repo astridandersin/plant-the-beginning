@@ -8,44 +8,49 @@
   <title>Plant the beginning · Junction 2026</title>
   <meta name="description" content="Smart plant: a bedside planter-lamp for the months after TMS treatment. A Junction 2026 entry for the Beyond the Clinic challenge, checked against real wristband data and the research." />
   <meta property="og:title" content="Plant the beginning" />
-  <meta property="og:description" content="Smart plant: a bedside planter-lamp for the months after TMS treatment." />
+  <meta property="og:description" content="Smart plant: a bedside planter-lamp for the months after TMS treatment. It notices when mornings drift, learns what helps, and tells the clinic who to check in with." />
   <meta property="og:image" content="https://www.astridandersin.com/junction2026/aalto/exploded.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=NATS&family=Inter:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="site.css" />
   <style>
-    :root { --bg:#fff; --ink:#111; --muted:#5f6368; --line:#e5e5e5; --card:#f6f6f4;
-            --dep:#c9702a; --ctl:#2f6ea8; --track:#ecebe7; }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --bg:#111; --ink:#f2f2f2; --muted:#9a9a9a; --line:#2a2a2a; --card:#1a1a19;
-              --dep:#c67a3e; --ctl:#4a8ac4; --track:#262624; }
-    }
-    * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height:1.55; }
-    main { max-width:980px; margin:0 auto; padding:56px 16px 32px; }
-    .kicker { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
-    h1 { font-weight:600; font-size:clamp(34px,6vw,56px); margin:0 0 8px; line-height:1.05; }
-    .punch { font-size:20px; color:var(--muted); margin:0 0 40px; }
+    /* Page specifics; fonts, palette, nav and glass come from site.css (the portfolio's look). */
+    :root { --ink:var(--c-ink); --muted:rgba(0,0,0,.58); --line:rgba(52,77,90,.14);
+            --dep:#c9702a; --ctl:#2f6ea8; --track:rgba(52,77,90,.08); }
+    body { font-size:17px; line-height:1.6; }
+    main { max-width:1040px; margin:0 auto; padding:120px 16px 32px; }
+    .kicker { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--c-slate); margin:0 0 14px; }
+    h1 { font-family:var(--font-display); font-weight:400; font-size:clamp(48px,8vw,92px); letter-spacing:.06em; margin:0 0 6px; line-height:.95; }
+    .punch { font-family:var(--font-display); font-size:clamp(20px,2.6vw,26px); letter-spacing:.4em; text-transform:uppercase; color:var(--c-slate); margin:0 0 48px; }
     .layout { display:grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap:40px; align-items:start; }
     @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
-    figure { margin:0; background:var(--card); border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+    figure { margin:0; border-radius:var(--radius-lg); overflow:hidden; background:var(--c-glass); border:1px solid rgba(255,255,255,.6);
+             box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
     figure img { display:block; width:100%; height:auto; }
-    figcaption { font-size:13px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); }
-    h2 { font-size:22px; margin:56px 0 8px; }
-    h3 { font-size:17px; margin:24px 0 6px; }
+    figcaption { font-size:13px; color:var(--muted); padding:12px 18px 14px; }
+    h2 { font-family:var(--font-display); font-weight:400; font-size:clamp(32px,4.4vw,48px); letter-spacing:.06em; line-height:1.05; margin:80px 0 12px; }
+    h3 { font-family:var(--font-display); font-weight:400; font-size:26px; letter-spacing:.06em; line-height:1.1; margin:28px 0 8px; }
     .layout h3:first-child { margin-top:0; }
     p, li { margin:0 0 10px; }
+    p, li, td { color:var(--c-ink-70); }
+    strong { color:var(--c-ink); font-weight:600; }
     ol, ul { padding-left:20px; margin:0; }
     .note { font-size:14px; color:var(--muted); }
     .second { margin-top:40px; }
-    .lede { font-size:17px; max-width:720px; }
+    .lede { font-size:18px; max-width:760px; }
     /* charts: plain HTML, one axis each, direct labels on every row */
-    .chart { background:var(--card); border:1px solid var(--line); border-radius:4px; padding:16px; margin:12px 0 6px; }
-    .chart .title { font-weight:600; margin:0 0 2px; }
+    .chart { border-radius:var(--radius-md); padding:20px 22px; margin:14px 0 8px; background:var(--c-glass); border:1px solid rgba(255,255,255,.5);
+             box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
+    .chart .title { font-weight:600; color:var(--c-ink); margin:0 0 2px; }
     .chart .sub { font-size:13px; color:var(--muted); margin:0 0 14px; }
     .row { display:grid; grid-template-columns: 110px minmax(0,1fr) 64px; gap:10px; align-items:center; margin:8px 0; font-size:14px; }
     .row .lab { color:var(--ink); }
-    .row .val { font-variant-numeric:tabular-nums; text-align:right; }
-    .track { position:relative; height:14px; background:var(--track); border-radius:4px; }
-    .bar { position:absolute; left:0; top:0; bottom:0; border-radius:0 4px 4px 0; }
-    .dot { position:absolute; top:50%; width:12px; height:12px; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 0 2px var(--card); }
+    .row .val { font-variant-numeric:tabular-nums; text-align:right; color:var(--ink); }
+    .track { position:relative; height:14px; background:var(--track); border-radius:var(--radius-pill); }
+    .bar { position:absolute; left:0; top:0; bottom:0; border-radius:var(--radius-pill); }
+    .dot { position:absolute; top:50%; width:12px; height:12px; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 0 2px #fff; }
     .axis { display:grid; grid-template-columns: 110px minmax(0,1fr) 64px; gap:10px; font-size:12px; color:var(--muted); }
     .ticks { position:relative; height:16px; }
     .ticks span { position:absolute; transform:translateX(-50%); white-space:nowrap; }
@@ -54,27 +59,153 @@
     .key { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:baseline; }
     [data-tip] { cursor:default; }
     [data-tip]:hover::after { content:attr(data-tip); position:absolute; left:50%; bottom:calc(100% + 8px); transform:translateX(-50%); white-space:nowrap;
-      background:var(--ink); color:var(--bg); font-size:12px; padding:4px 8px; border-radius:4px; z-index:2; }
-    table { border-collapse:collapse; width:100%; font-size:14px; margin:12px 0 6px; }
-    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
-    th { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600; }
+      background:var(--c-ink); color:#fff; font-size:12px; padding:5px 10px; border-radius:var(--radius-pill); z-index:2; }
+    .table-wrap { border-radius:var(--radius-md); overflow:auto; margin:14px 0 8px; background:var(--c-glass); border:1px solid rgba(255,255,255,.5);
+                  box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
+    table { border-collapse:collapse; width:100%; font-size:14px; }
+    th, td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+    tr:last-child td { border-bottom:0; }
+    th { font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--c-slate); font-weight:500; }
     td.num { font-variant-numeric:tabular-nums; }
-    .changes { display:grid; gap:12px; margin-top:12px; }
-    .change { border:1px solid var(--line); border-radius:4px; padding:14px 16px; }
-    .change strong { display:block; margin-bottom:2px; }
+    .changes { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:14px; }
+    .change { border-radius:var(--radius-md); padding:18px 20px; background:var(--c-glass); border:1px solid rgba(255,255,255,.5);
+              box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%);
+              transition:transform .5s var(--easing), box-shadow .5s var(--easing); }
+    .change:hover { transform:translateY(-4px); box-shadow:var(--shadow-deep); }
+    .change strong { display:block; margin-bottom:4px; }
     .change .why { font-size:14px; color:var(--muted); margin:0; }
+    .cta { display:inline-block; margin-top:6px; padding:12px 22px; border-radius:var(--radius-pill); background:var(--c-ink); color:#fff; font-weight:500; font-size:15px;
+           transition:background-color .3s var(--easing), transform .3s var(--easing); }
+    .cta:hover { background:var(--c-action); transform:translateY(-1px); text-decoration:none; }
     .refs li { font-size:14px; }
-    a { color:inherit; }
-    footer { padding:24px 16px 40px; text-align:center; font-size:13px; color:var(--muted); }
+    .hw3d-wrap { margin-top:14px; }
+    .hw3d { position:relative; height:clamp(380px, 62vw, 600px); border-radius:var(--radius-lg); overflow:hidden; background:var(--c-glass);
+            border:1px solid rgba(255,255,255,.6); box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%);
+            touch-action:pan-y; }
+    .hw3d canvas { display:block; width:100%; height:100%; cursor:grab; }
+    .hw3d canvas:active { cursor:grabbing; }
+    .hw3d .loading { position:absolute; inset:0; display:grid; place-items:center; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--c-slate); }
+    .hw3d.ready .loading { display:none; }
+    .hw3d-tip { position:absolute; z-index:3; max-width:300px; pointer-events:none; padding:10px 14px; border-radius:var(--radius-md); font-size:13px; line-height:1.45;
+                background:rgba(255,255,255,.88); border:1px solid rgba(255,255,255,.7); box-shadow:var(--shadow-deep); color:var(--c-ink-70);
+                -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); }
+    .hw3d-tip strong { display:block; color:var(--c-ink); margin-bottom:2px; }
+    .hw3d-bar { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:12px 2px 0; }
+    .moods { display:inline-flex; gap:4px; padding:4px; border-radius:var(--radius-pill); background:var(--c-glass); border:1px solid rgba(255,255,255,.55); box-shadow:var(--shadow-soft); }
+    .moods button { border:0; background:transparent; padding:6px 12px; min-width:36px; }
+    .moods button[aria-pressed="true"] { background:var(--c-ink); color:#fff; }
+    .hw3d-bar .hint { font-size:13px; color:var(--muted); margin:0; }
+    .hero { margin-bottom:8px; }
+    .hero-lede { font-size:19px; line-height:1.6; max-width:760px; color:var(--c-ink-70); margin:-20px 0 22px; }
+    .cta-row { display:flex; flex-wrap:wrap; gap:10px; }
+    .cta.secondary { background:var(--c-glass); color:var(--c-slate); border:1px solid rgba(52,77,90,.16); }
+    .cta.secondary:hover { background:#fff; color:var(--c-action); }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:14px; margin:14px 0 18px; }
+    .stat { display:grid; gap:6px; align-content:start; padding:20px 22px; border-radius:var(--radius-md); background:var(--c-glass); border:1px solid rgba(255,255,255,.5);
+            box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
+    .stat-v { font-family:var(--font-display); font-size:clamp(34px,4.6vw,48px); letter-spacing:.04em; line-height:1; color:var(--c-ink); }
+    .stat-k { font-size:14px; color:var(--muted); }
+    .stat-t { font-weight:600; color:var(--c-ink); font-size:16px; margin-top:4px; }
+    .steps { list-style:none; padding:0; margin:14px 0 8px; display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px; counter-reset:step; }
+    .steps li { counter-increment:step; display:grid; gap:6px; align-content:start; padding:20px 22px; margin:0; border-radius:var(--radius-md); background:var(--c-glass);
+                border:1px solid rgba(255,255,255,.5); box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
+    .steps li::before { content:counter(step, decimal-leading-zero); font-family:var(--font-display); font-size:13px; letter-spacing:.2em; color:var(--c-action); }
+    .steps strong { font-family:var(--font-display); font-weight:400; font-size:22px; letter-spacing:.05em; }
+    .steps span { font-size:14.5px; color:var(--muted); }
+    .layout.second { margin-top:40px; }
+    .signals { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin:16px 0 18px; }
+    .signal { display:grid; gap:6px; align-content:start; padding:22px; border-radius:var(--radius-md); background:var(--c-glass); border:1px solid rgba(255,255,255,.5);
+              box-shadow:var(--shadow-soft); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); }
+    .signal .sig-n { font-family:var(--font-display); font-size:13px; letter-spacing:.2em; color:var(--c-action); }
+    .signal strong { font-family:var(--font-display); font-weight:400; font-size:24px; letter-spacing:.05em; line-height:1.1; }
+    .signal p { font-size:14.5px; color:var(--muted); margin:0; }
+
+    footer { padding:32px 16px 48px; text-align:center; font-size:12px; letter-spacing:.04em; color:var(--c-ink-55); }
   </style>
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+  <script type="module" src="hardware3d.js"></script>
 </head>
 <body>
+  <div class="site-nav-shell">
+    <nav class="site-nav" aria-label="Site">
+      <a class="site-logo" href="https://www.astridandersin.com/" aria-label="Astrid Andersin, home">A.A.</a>
+      <ul class="site-links">
+        <li><a href="/junction2026/aalto" aria-current="page"><span class="l">Plant the beginning</span><span class="s">Project</span></a></li>
+        <li><a href="/junction2026/aalto/me">My lamp</a></li>
+        <li><a href="/junction2026/aalto/clinic"><span class="l">Clinic view</span><span class="s">Clinic</span></a></li>
+      </ul>
+    </nav>
+  </div>
   <main>
-    <p class="kicker">Junction 2026 · Beyond the Clinic challenge · work in progress</p>
-    <h1>Plant the beginning</h1>
-    <p class="punch">Smart plant</p>
+    <header class="hero">
+      <p class="kicker">Junction 2026 · Beyond the Clinic challenge (Aalto University)</p>
+      <h1>Plant the beginning</h1>
+      <p class="punch">Smart plant</p>
+      <p class="hero-lede">A bedside planter-lamp for the months after TMS treatment for depression. Every day it notices three small things: how the person feels (one button check-in), whether they water their plant, and whether daylight actually reaches the room. When those change for several days, the clinic gets one calm line: who to check in with this week.</p>
+      <div class="cta-row">
+        <a class="cta" href="/junction2026/aalto/clinic">Open the clinic view →</a>
+        <a class="cta secondary" href="#lamp">See the lamp in 3D ↓</a>
+      </div>
+    </header>
 
-    <div class="layout">
+    <h2 id="problem">The problem</h2>
+    <p class="lede">TMS (transcranial magnetic stimulation) is a treatment for severe depression. For a few weeks the person comes to the clinic almost every day for a short session of gentle magnetic pulses to the brain. For many people it works. The hard part comes after the treatment ends.</p>
+    <div class="stats">
+      <div class="stat"><span class="stat-v">1 in 2</span><span class="stat-t">It often wears off</span><span class="stat-k">About half of the people TMS helps feel depressed again within a year. Only 46 % were still doing well after 12 months (Senova 2019, across many studies).</span></div>
+      <div class="stat"><span class="stat-v">2×</span><span class="stat-t">The early signs are in everyday life</span><span class="stat-k">Before it comes back, days often lose their shape: getting up at very different times, mornings drifting, small routines slipping. People whose daily rhythm became less regular had about twice the risk of falling ill again (Tonon et al., <em>JAMA Psychiatry</em> 2026).</span></div>
+      <div class="stat"><span class="stat-v">Weeks</span><span class="stat-t">Nobody is there to notice</span><span class="stat-k">When the daily visits stop, the next appointment can be weeks away. Phone apps are usually given up quickly, and on a bad day nobody fills in a form. So the clinic finds out late.</span></div>
+    </div>
+    <p class="lede">"Plant the beginning" notices these everyday signs, asks almost nothing of the person on a bad day, and lets the clinic step in sooner.</p>
+
+    <h2 id="how">How it works</h2>
+    <p class="lede">The lamp watches three everyday signals. None of them needs the person to open an app, and together they say more than any one of them alone.</p>
+    <div class="signals">
+      <div class="signal"><span class="sig-n">01</span><strong>Watering the plant</strong><p>A probe in the soil notices each watering. Caring for something living is a small sign of care for oneself, of the energy to do it, and of being active and up. A plant left dry for days says something too.</p></div>
+      <div class="signal"><span class="sig-n">02</span><strong>A mood update every day</strong><p>One question each morning on three buttons: green opens it, + and − choose from 1 to 5, green saves. It takes ten seconds, and a missed day is information as well. It also marks when the day really started.</p></div>
+      <div class="signal"><span class="sig-n">03</span><strong>Daylight in the room</strong><p>A light sensor measures how much daylight gets in and when the room gets bright. Did the person open the curtains and switch the lights on, or answer the mood question and go back to bed in the dark?</p></div>
+    </div>
+    <p>Each signal is compared with the person's <strong>own</strong> usual pattern (weekdays and weekends apart). When mornings drift, earlier or later, for several days, the clinic's list shows <strong>"keep an eye"</strong> or <strong>"check in"</strong> with one reason. The lamp flags worrying behaviour, but the clinic decides on the course of action.</p>
+
+    <h3>Supporting features</h3>
+    <ul>
+      <li><strong>A light that answers.</strong> While choosing, the lamp glows in the mood's colour, like a rising sun: a dim ember for a hard morning up to bright, sunny light for a good one. No mood gets a "sad" colour, and nothing blue glows at night. Afterwards it keeps glowing softly; + and − dim it, down to off, and at 22:00 it dims by itself.</li>
+      <li><strong>Chimes and a gentle wake cue.</strong> A soft sunrise on the lamp in the morning and a short chime. The lamp tries three styles and learns which one is followed by steadier mornings for this person.</li>
+      <li><strong>Away mode.</strong> Hold green for 3 seconds, so travel days aren't counted as late mornings.</li>
+    </ul>
+    <h3>Extras</h3>
+    <p>Room temperature and humidity: nice smart-home readings, shown only to the person in their own view, never to the clinic, and not used to flag anyone.</p>
+    <p class="note">No camera, no microphone, no bed-exit sensing. Only small events leave the lamp.</p>
+
+    <h2 id="clinic">See it working</h2>
+    <p>Two views read the same lamp. <strong>My lamp</strong> is the person's own: today's check-in, their plant, their room, a gentle week in colours, what seems to help, exactly what the clinic sees, and where to get help right now. No scores, no "late", no streaks.</p>
+    <p>The <strong>clinic view</strong> ranks people by need, shows each morning against the person's own usual time, what the lamp is learning, and a weekly note written with Gemini. It runs on three simulated people whose days went through the lamp's real software, and on the real lamp at Junction: its check-ins, room and plant readings arrive within seconds (choose "Live lamp").</p>
+    <div class="cta-row"><a class="cta" href="/junction2026/aalto/me">Open My lamp →</a><a class="cta" href="/junction2026/aalto/clinic">Open the clinic view →</a></div>
+
+    <h2 id="lamp">The lamp, as built</h2>
+    <p class="lede">The 3D-printed planter from the real print files, and the electronics as wired at Junction: the Arduino UNO Q, a mini breadboard with the three check-in buttons and three TIP120 light switches, the temperature and humidity sensor, the light sensor, the chime, the soil probe and the 12 V LED strip that lines the sleeve's inner rim. Drag to turn it, zoom with + and −, and point at a part to see what it does.</p>
+    <div class="hw3d-wrap">
+      <div class="hw3d" id="hw3d" role="img" aria-label="3D model of the lamp's electronics: an Arduino UNO Q wired to a red mini breadboard with three button modules and three TIP120 transistors, a DHT22 sensor plugged into the board, a Grove light sensor, a piezo buzzer, a soil probe in a potted plant, and a 12 V LED strip glowing in the selected mood's colour.">
+        <div class="loading">Loading the 3D model…</div>
+        <div class="hw3d-tip" id="hw3d-tip" hidden></div>
+      </div>
+      <div class="hw3d-bar">
+        <div class="moods" role="group" aria-label="Show the strip's colour for a mood">
+          <button type="button" data-mood="1" aria-pressed="false">1</button>
+          <button type="button" data-mood="2" aria-pressed="false">2</button>
+          <button type="button" data-mood="3" aria-pressed="true">3</button>
+          <button type="button" data-mood="4" aria-pressed="false">4</button>
+          <button type="button" data-mood="5" aria-pressed="false">5</button>
+        </div>
+        <div class="moods" role="group" aria-label="Zoom">
+          <button type="button" id="hw3d-out" aria-label="Zoom out">−</button>
+          <button type="button" id="hw3d-in" aria-label="Zoom in">+</button>
+        </div>
+        <p class="hint"><span id="hw3d-mood">Mood 3 (ok)</span>: the strip round the sleeve's rim and the board's light matrix, in the colours of a rising sun.</p>
+      </div>
+    </div>
+
+
+    <div class="layout second">
       <figure>
         <img src="exploded.png" width="1400" height="1500"
              alt="Exploded view of the planter-lamp: from the bottom, a floor plate holding the Arduino board upright, the electronics base with a translucent front window, and the wave-patterned sleeve that holds the plant's own pot." />
@@ -82,35 +213,17 @@
       </figure>
 
       <div>
-        <h3>What it is</h3>
-        <p>A bedside lamp that is also a plant pot, for the months after TMS treatment for depression, when about half of people lose the benefit and nobody is watching closely between clinic visits.</p>
-        <p>It notices the shape of each day: the morning check-in on its buttons (or a missed one), when the plant gets watered, when daylight reaches the room, and the room's temperature and humidity. When mornings change for several days against the person's own pattern, the clinic gets one gentle flag to check in. It never diagnoses or decides treatment.</p>
-
         <h3>The parts, bottom to top</h3>
         <ol>
           <li><strong>Floor plate</strong>: holds the Arduino UNO Q (2 GB) upright and screws into the base, so everything is wired on the table first.</li>
           <li><strong>Base</strong>: the electronics, with a translucent window where the board's LED matrix shows the mood picker, three buttons for the daily check-in, a chime, a light sensor, and a vented pocket outside so the temperature and humidity sensor reads the room.</li>
-          <li><strong>Sleeve</strong>: a thin wall of ocean waves round the plant's own nursery pot, catching its drainage water; a soil probe rides in the pot, and a 12 V LED strip gives the lamp its warm light.</li>
+          <li><strong>Sleeve</strong>: a thin wall of waves round the plant's own nursery pot, catching its drainage water; a soil probe rides in the pot, and a 12 V LED strip on the inner rim gives the lamp its warm light.</li>
         </ol>
-        <p class="note">What it senses: the check-in buttons, soil moisture, room temperature and humidity, and room light (curtains opened, daylight). No camera, no microphone, no bed-exit sensing.</p>
-
-        <h3>Using it</h3>
-        <ul>
-          <li><strong>Check in:</strong> green opens the mood picker, + and − choose (1 to 5), green again saves. Pressing green twice means "ok".</li>
-          <li><strong>Colours of a rising sun:</strong> a dim ember for a hard morning up to bright, sunny light for a good one. No mood gets a "sad" colour, and nothing blue glows at night.</li>
-          <li><strong>Between check-ins</strong> the lamp keeps glowing softly in that mood's colour. With the picker closed, + and − dim it, down to off; at 22:00 it dims by itself.</li>
-          <li><strong>Away:</strong> hold green for 3 seconds, so travel days aren't counted as late mornings.</li>
-        </ul>
       </div>
     </div>
 
-    <figure class="second">
-      <img src="sleeve.png" width="1400" height="1000" loading="lazy"
-           alt="Close-up of the sleeve: soft horizontal ocean swells rolling round the outside of the planter." />
-      <figcaption>The sleeve: ocean swells rolling round the planter.</figcaption>
-    </figure>
 
-    <h2 id="data">What real data says about the idea</h2>
+    <h2 id="data">Tested on real data</h2>
     <p class="lede">The lamp's morning rule was tested on real wristband data before building further: the public <a href="https://datasets.simula.no/depresjon/">Depresjon dataset</a> (Simula, Norway), minute-by-minute activity from <strong>23 people with depression and 32 without</strong>, about two weeks each. The research behind every design choice was reviewed too.</p>
 
     <div class="chart" role="group" aria-labelledby="c1t">
@@ -149,14 +262,14 @@
 
     <h3>How often would the lamp raise a false alarm, and how often would it catch a slip?</h3>
     <p>The real mornings of the people without depression were replayed through two versions of the rule, first as they are, then with a slow slip added (mornings getting 25 minutes later every day from day 8, a stand-in for the slow change that can come before a relapse).</p>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>Rule</th><th>Healthy people flagged by mistake (about a week)</th><th>Slow slip caught</th><th>Days to notice</th></tr></thead>
       <tbody>
         <tr><td>First version: 5 late mornings in a row</td><td class="num">1 of 32 (3 %)</td><td class="num">18 of 32</td><td class="num">6.5</td></tr>
         <tr><td>Refined: separate weekday and weekend baselines, 3-day smoothing, 4 of the last 5 days</td><td class="num">6 of 32 (19 %)</td><td class="num">25 of 32</td><td class="num">6</td></tr>
         <tr><td><strong>The lamp's code now</strong>, two levels: "check in" after 5 mornings in a row far from usual (earlier or later); "keep an eye" when mornings drift on 5 of the last 6 days or get much more irregular. Weekday and weekend baselines, missing days skipped.</td><td class="num">"Check in": 3 of 32 (9 %)<br />"Keep an eye": 6 of 32 (19 %)</td><td class="num">"Check in": 22 of 32<br />Either level: 24 of 32</td><td class="num">6<br />5</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <p class="note">The last row runs the lamp's actual software on the same real mornings. Limits: two weeks per person, no relapse labels, and the slip is simulated. This checks noise and false alarms, not real relapse detection.</p>
 
     <h3>What the research adds</h3>
@@ -168,20 +281,25 @@
       <li><strong>Light and plants are support, not therapy.</strong> Dawn simulation helped in winter depression at 200-300 lux; the lamp's small window is far dimmer, so it's a gentle wake cue. Caring for a plant is a daily ritual and a signal, not a treatment.</li>
     </ul>
 
-    <h2 id="changes">How this changes the product</h2>
-    <p>Most of these are now in the lamp's software; the clinic view below shows them working on simulated people.</p>
+    <h2 id="changes">How the evidence shaped the product</h2>
+    <p>Most of these are in the lamp's software now; the clinic view shows them working.</p>
     <div class="changes">
       <div class="change"><strong>Built: two levels in the clinic view, not one alarm.</strong><p class="why">A quiet "keep an eye" from the more sensitive rule, and an amber "check in" only from the strict one (later also from a worrying PHQ-2). The clinic sees the expected false-alarm rate next to each flag.</p></div>
       <div class="change"><strong>Built: irregularity in both directions, with a weekend-aware baseline.</strong><p class="why">Separate weekday and weekend patterns, a rolling baseline that follows the seasons, and early waking counts as much as sleeping in.</p></div>
       <div class="change"><strong>Built: no data is not a bad day.</strong><p class="why">Holding the green button means "I'm away", and a lamp that's unplugged isn't counted as a late morning. In the real data, missing days would otherwise have caused most of the false alarms.</p></div>
       <div class="change"><strong>Next: a weekly two-question check-in on the buttons (PHQ-2).</strong><p class="why">Gives the clinic a validated number to act on, which is how re-treatment decisions are made.</p></div>
       <div class="change"><strong>Built: learning what helps this person.</strong><p class="why">The lamp varies its gentle responses (wake cue, chime, plant reminder) and keeps an honest "still learning" estimate of which ones are followed by steadier mornings and better mood for this person.</p></div>
-      <div class="change"><strong>Words built, safety line next: honest wording and a crisis line.</strong><p class="why">"Flags patterns linked to relapse risk", never "predicts relapse"; "gentle wake cue", never therapy. Next: the lamp and the clinic view say plainly that nobody watches in real time, and show where to get help in a crisis.</p></div>
+      <div class="change"><strong>Built: honest wording and a crisis line in the person's view.</strong><p class="why">"Flags patterns linked to relapse risk", never "predicts relapse"; "gentle wake cue", never therapy. My lamp says plainly that nobody watches in real time and gives 112 and MIELI's 24/7 crisis line. Next: the same on the lamp itself.</p></div>
     </div>
 
-    <h2 id="clinic">See it working</h2>
-    <p>The clinic view ranks people by need, shows each morning against the person's own usual time, what the lamp is learning, and a weekly note written with Gemini. It runs on three simulated people whose days went through the lamp's real software, and on the real lamp at Junction: its check-ins, room and plant readings arrive within seconds (choose "Live lamp").</p>
-    <p><a href="/junction2026/aalto/clinic">Open the clinic view →</a></p>
+    <h2 id="waves">Why waves</h2>
+    <p>The sleeve's swells are brain waves as much as sea waves: the rhythms an EEG draws, the signal the partner lab measures when it stimulates the brain with TMS. And <em>aalto</em> is Finnish for "wave", the name of the university behind the challenge. A lamp for life after brain stimulation, wrapped in waves.</p>
+
+    <figure class="second waves-fig">
+      <img src="sleeve.png" width="1400" height="1000" loading="lazy"
+           alt="Close-up of the sleeve: soft horizontal ocean swells rolling round the outside of the planter." />
+      <figcaption>The sleeve: waves rolling round the planter, brain waves and <em>aalto</em> at once.</figcaption>
+    </figure>
 
     <h3>Sources</h3>
     <ul class="refs">

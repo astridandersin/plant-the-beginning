@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="/junction2026/aalto/me/" />
+  <title>My lamp · Plant the beginning</title>
+  <meta name="description" content="The person's own view of Plant the beginning: today's check-in, the plant, the room, the week, and what the clinic sees. Demo with simulated people." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=NATS&family=Inter:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="../site.css" />
+  <link rel="stylesheet" href="patient.css" />
+</head>
+<body>
+  <div class="site-nav-shell">
+    <nav class="site-nav" aria-label="Site">
+      <a class="site-logo" href="https://www.astridandersin.com/" aria-label="Astrid Andersin, home">A.A.</a>
+      <ul class="site-links">
+        <li><a href="/junction2026/aalto"><span class="l">Plant the beginning</span><span class="s">Project</span></a></li>
+        <li><a href="/junction2026/aalto/me" aria-current="page">My lamp</a></li>
+        <li><a href="/junction2026/aalto/clinic"><span class="l">Clinic view</span><span class="s">Clinic</span></a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main class="wrap">
+    <header class="top">
+      <div>
+        <p class="kicker">Plant the beginning · Your own view</p>
+        <h1 id="greeting">Hello</h1>
+        <p class="sub" id="dateline"></p>
+      </div>
+      <div class="top-right">
+        <a class="help-link" href="#help">Need help now?</a>
+        <label class="who">
+          <span class="visually-hidden">Whose lamp</span>
+          <select id="who" aria-label="Whose lamp">
+            <option value="demo:maija">Maija (simulated)</option>
+            <option value="demo:antti">Antti (simulated)</option>
+            <option value="demo:leena">Leena (simulated)</option>
+            <option value="live">The real lamp at Junction</option>
+          </select>
+        </label>
+      </div>
+    </header>
+    <p class="banner" id="banner"></p>
+
+    <section class="card today" aria-labelledby="today-h">
+      <h2 id="today-h">Today</h2>
+      <div class="today-row">
+        <span class="sun" id="today-sun" aria-hidden="true"></span>
+        <div>
+          <p class="big" id="today-mood"></p>
+          <p class="soft" id="today-note"></p>
+        </div>
+      </div>
+      <div class="checkin" id="checkin">
+        <p class="soft">Check in from here too. It goes to your lamp, just like the buttons.</p>
+        <div class="pills" role="group" aria-label="How are you this morning?">
+          <button type="button" data-cmd="checkin_low">Low</button>
+          <button type="button" data-cmd="checkin_ok">OK</button>
+          <button type="button" data-cmd="checkin_good">Good</button>
+        </div>
+        <p class="soft small" id="cmd-note" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <div class="grid two">
+      <section class="card" aria-labelledby="plant-h">
+        <h2 id="plant-h">Your plant</h2>
+        <div class="plant-row">
+          <div class="gauge" aria-hidden="true"><span id="soil-fill"></span></div>
+          <div>
+            <p class="big" id="plant-state"></p>
+            <p class="soft" id="plant-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="room-h">
+        <h2 id="room-h">Your room</h2>
+        <dl class="room" id="room"></dl>
+        <p class="soft small">Temperature and humidity are just for you. Your clinic doesn't see them.</p>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="week-h">
+      <h2 id="week-h">Your week</h2>
+      <ol class="week" id="week"></ol>
+      <p class="soft small legend"><span class="ico mood" aria-hidden="true"></span> your mood that morning, in the colours of a rising sun &nbsp;·&nbsp; <span class="ico drop" aria-hidden="true"></span> plant watered &nbsp;·&nbsp; <span class="ico day" aria-hidden="true"></span> more than 3 hours of daylight in the room</p>
+    </section>
+
+    <div class="grid two">
+      <section class="card" aria-labelledby="learn-h">
+        <h2 id="learn-h">What seems to help you</h2>
+        <p id="learn-text"></p>
+        <p class="soft small">Each morning the lamp tries one of three gentle wake-ups and notices which ones are followed by steadier mornings and better days for you.</p>
+      </section>
+
+      <section class="card" aria-labelledby="away-h">
+        <h2 id="away-h">Going away?</h2>
+        <p id="away-text"></p>
+        <p class="soft small">Hold the green button on the lamp for 3 seconds to say you're away, and again when you're back. Days away are never counted.</p>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="clinic-h">
+      <h2 id="clinic-h">What your clinic sees</h2>
+      <p class="big-ish" id="clinic-level"></p>
+      <div class="grid two shares">
+        <div>
+          <h3>Shared with your clinic</h3>
+          <ul>
+            <li>Your mood each morning, and missed days</li>
+            <li>When your day starts</li>
+            <li>When the plant is watered</li>
+            <li>Daylight in the room</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Never shared</h3>
+          <ul>
+            <li>Temperature and humidity</li>
+            <li>Anything from a camera or microphone: the lamp has neither</li>
+            <li>Where you are: away mode only says "away"</li>
+          </ul>
+        </div>
+      </div>
+      <p class="soft small">The lamp flags worrying behaviour, but the clinic decides on the course of action. It never diagnoses you.</p>
+    </section>
+
+    <section class="card help" id="help" aria-labelledby="help-h">
+      <h2 id="help-h">Need help now?</h2>
+      <p>Nobody watches the lamp in real time. If you are in danger or thinking about harming yourself, please call someone now.</p>
+      <div class="pills help-pills">
+        <a class="help-btn" href="tel:112">Emergency: <strong>112</strong></a>
+        <a class="help-btn" href="tel:+358925250111">MIELI Crisis Helpline: <strong>09 2525 0111</strong></a>
+      </div>
+      <p class="soft small">MIELI's line is in Finnish and open day and night. MIELI doesn't charge for the call; your operator's normal rate applies. You can also contact your own clinic.</p>
+    </section>
+  </main>
+
+  <footer class="site-foot">Plant the beginning, built by Astrid Andersin at Junction 2026 for the Beyond the Clinic challenge. A prototype, not a medical device. Demo with simulated people: never use it with real personal data.</footer>
+  <script type="module" src="patient.js"></script>
+</body>
+</html>

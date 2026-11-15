@@ -141,7 +141,7 @@ function renderStatus(p) {
   box.className = `status ${p.level}`;
   const head = ["Steady", "Keep an eye", "Check in this week"][p.stats.level];
   const tail = p.stats.level === 2
-    ? `${reasonFor(p)} The lamp flags; the clinic decides whether to reach out or offer a booster. About ${FALSE_ALARM_PCT} % of steady people reach this level by mistake in a week.`
+    ? `${reasonFor(p)} The lamp flags worrying behaviour, but the clinic decides on the course of action: whether to reach out or offer a booster. About ${FALSE_ALARM_PCT} % of steady people reach this level by mistake in a week.`
     : reasonFor(p);
   box.replaceChildren(el("strong", {}, `${p.name}: ${head}`), el("span", {}, tail));
 }
@@ -236,12 +236,10 @@ function renderToday(p) {
   const items = p.todays.map((e) => [e.at, describe(e)]).filter(([, d]) => d).sort((a, b) => (toMin(a[0]) ?? 0) - (toMin(b[0]) ?? 0));
   $("today").replaceChildren(...(items.length ? items.map(([at, d]) => el("li", {}, el("time", {}, at || ""), d)) : [el("li", {}, "Nothing yet today.")]));
   const r = p.lastReading || {};
+  // Temperature and humidity stay in the person's own view: they're comfort readings, not clinical signals.
   const rows = [
-    ["Room", r.temp != null ? `${r.temp} °C` : "–"],
-    ["Humidity", r.hum != null ? `${r.hum} %` : "–"],
     ["Room light", r.light != null ? `${r.light} / 100` : "–"],
     ["Soil moisture", r.soil != null ? `${r.soil} %` : "–"],
-    ["Room, last 7 days", p.stats.temp_7d != null ? `${fmt1(p.stats.temp_7d)} °C on average` : "–"],
     ["Lamp", state.source === "live" ? (p.lastT ? `last heard ${ago(p.lastT)}` : "not heard yet") : "simulated"],
   ];
   if (p.lastStatus?.modules) rows.push(["Modules", p.lastStatus.modules]);

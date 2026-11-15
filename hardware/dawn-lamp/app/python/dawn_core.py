@@ -123,7 +123,10 @@ class Config:
     motion_mm: int = 120             # distance change between samples that counts as movement
     cam_motion_min: float = 6.0      # camera movement score that counts as movement
     daylight_pct: float = 35.0       # camera brightness that counts as daylight in the room
+    dark_pct: float = 15.0           # below this the room counts as dark (daylight only counts after dark)
     strip_max: float = 0.3           # cap LED strip brightness (power budget)
+    reading_every_s: int = 600       # room/soil/light reading interval (lower it, e.g. 20, when filming a demo)
+    daylight_from_hour: int = 5      # daylight before this hour isn't counted (set 0 to film a demo at night)
     learn: bool = True               # vary the response and learn; False = always "long"
     seed: int | None = None          # for repeatable simulations
 
@@ -471,9 +474,9 @@ class Brain:
         if light is not None:
             self._acc["light"].append(light)
             dawn_on = self._dawn is not None            # the lamp's own glow mustn't count as daylight
-            if light < 15:
+            if light < self.cfg.dark_pct:
                 self._dark_seen_day = day_key(now)
-            if (not dawn_on and light >= self.cfg.daylight_pct and 5 <= now.hour < 16
+            if (not dawn_on and light >= self.cfg.daylight_pct and self.cfg.daylight_from_hour <= now.hour < 16
                     and not rec.get("curtains_at") and self._dark_seen_day == day_key(now)):
                 rec["curtains_at"] = hhmm(minute_of_day(now))
                 self._emit(now, "daylight", light=round(light))
@@ -549,8 +552,13 @@ class Brain:
         self.scene.sounds += [(784, 80), (1047, 120)]
         self._thanks_until = now + timedelta(seconds=2)
         self.glow_mood = mood
-        if self.light < 2:                 # a check-in brings the glow back, softly
-            self.light = 2
+        # A check-in brings the glow back: softly by day, dimmest at night (and the bedtime
+        # dimming then counts as done, so it doesn't flick the glow down a second later).
+        target = 1 if self._is_night(now) else 2
+        if self._is_night(now) and now.hour >= 12:
+            self._night_dimmed_day = day_key(now)
+        if self.light < target:
+            self.light = target
             self._emit(now, "light", brightness=self.light)
 
     def _set_light(self, now: datetime, level: int) -> None:
@@ -582,9 +590,9 @@ class Brain:
         if self._last_reading is None:
             # First reading one minute after start, then every 10 minutes, so a freshly
             # started lamp shows its room straight away in the clinic view.
-            self._last_reading = now - timedelta(seconds=READING_EVERY_S - 60)
+            self._last_reading = now - timedelta(seconds=max(0, self.cfg.reading_every_s - 60))
             return
-        if self._last_reading and (now - self._last_reading).total_seconds() < READING_EVERY_S:
+        if self._last_reading and (now - self._last_reading).total_seconds() < self.cfg.reading_every_s:
             return
         a = self._acc
         avg = lambda xs: round(sum(xs) / len(xs), 1) if xs else None
@@ -596,7 +604,7 @@ class Brain:
             if h is not None: rec["hum"].append(h)
             if so is not None: rec["soil"].append(so)
             if li is not None and li >= self.cfg.daylight_pct and 6 <= now.hour < 16:
-                rec["daylight_min"] = rec.get("daylight_min", 0) + READING_EVERY_S // 60
+                rec["daylight_min"] = rec.get("daylight_min", 0) + self.cfg.reading_every_s / 60
         self._acc = {"temp": [], "hum": [], "soil": [], "light": [], "motion": 0}
         self._last_reading = now
 
